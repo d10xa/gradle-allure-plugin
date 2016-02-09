@@ -6,18 +6,18 @@ import org.junit.rules.ExternalResource
 @CompileStatic
 class GradlePluginClasspath extends ExternalResource {
 
-    URL pluginClasspathResource
+    private URL pluginClasspathResource
 
     @Override
     protected void before() throws Throwable {
-        pluginClasspathResource = getClass().classLoader.getResource("plugin-classpath.txt")
-        if (pluginClasspathResource == null) {
+        this.pluginClasspathResource = getClass().classLoader.getResource("plugin-classpath.txt")
+        if (this.pluginClasspathResource == null) {
             throw new IllegalStateException("Did not find plugin classpath resource, run `testClasses` build task.")
         }
     }
 
     public List get() {
-        pluginClasspathResource.readLines().collect { new File(it) }
+        this.pluginClasspathResource.readLines().collect { new File(it) }
     }
 
 }

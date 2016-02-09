@@ -19,42 +19,43 @@ class AllurePluginSpec extends Specification {
 
     def setup() {
         buildFile = testProjectDir.newFile("build.gradle");
-        testProjectDir.newFolder("src", "test", "java").mkdirs()
-        testFile = testProjectDir.newFile("src/test/java/Test.java")
+        testProjectDir.newFolder("src", "test", "groovy").mkdirs()
+        testFile = testProjectDir.newFile("src/test/groovy/Spec.groovy")
     }
 
     def 'test'() {
         given:
         buildFile << """
             plugins {
-                id 'java'
+                id 'groovy'
                 id 'ru.d10xa.allure'
             }
             repositories {
                 jcenter()
             }
             dependencies {
-                testCompile 'junit:junit:4.12'
+                compile 'org.codehaus.groovy:groovy-all:2.4.5'
+                testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
             }
             test {
                 testLogging {
                     showStandardStreams = true
                 }
             }
-            task helloWorld {
-                doLast {
-                    println 'Hello world!'
-                }
-            }
         """
 
         testFile << """
-            public class Test {
-                @org.junit.Test
-                public void test() {
-                    System.out.println("test executed");
-                    org.junit.Assert.assertTrue(true);
+            import spock.lang.Specification
+
+            public class Spec extends Specification {
+
+                def 'spec'() {
+                    println("test executed")
+
+                    expect:
+                    true
                 }
+
             }
         """
 
@@ -67,7 +68,9 @@ class AllurePluginSpec extends Specification {
 
         then:
         result.output.contains('test executed')
-        result.output.contains('allure!')
         result.task(":test").outcome == SUCCESS
+        new File(testProjectDir.root, "build/allure-results").list().size() == 1
+        new File(testProjectDir.root, "build/allure-report/index.html").exists()
     }
+
 }
