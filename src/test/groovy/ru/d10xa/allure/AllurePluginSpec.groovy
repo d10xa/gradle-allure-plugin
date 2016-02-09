@@ -9,9 +9,10 @@ import static org.gradle.testkit.runner.TaskOutcome.*
 class AllurePluginSpec extends Specification {
 
     @Rule
-    public final TemporaryFolder testProjectDir = new TemporaryFolder()
+    TemporaryFolder testProjectDir = new TemporaryFolder()
 
-    List<File> pluginClasspath
+    @Rule
+    GradlePluginClasspath gradlePluginClasspath = new GradlePluginClasspath()
 
     private File buildFile
     private File testFile
@@ -20,13 +21,6 @@ class AllurePluginSpec extends Specification {
         buildFile = testProjectDir.newFile("build.gradle");
         testProjectDir.newFolder("src", "test", "java").mkdirs()
         testFile = testProjectDir.newFile("src/test/java/Test.java")
-
-        def pluginClasspathResource = getClass().classLoader.findResource("plugin-classpath.txt")
-        if (pluginClasspathResource == null) {
-            throw new IllegalStateException("Did not find plugin classpath resource, run `testClasses` build task.")
-        }
-
-        pluginClasspath = pluginClasspathResource.readLines().collect { new File(it) }
     }
 
     def 'test'() {
@@ -67,8 +61,8 @@ class AllurePluginSpec extends Specification {
         when:
         def result = GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
-                .withArguments('test','allureReport')
-                .withPluginClasspath(pluginClasspath)
+                .withArguments('test', 'allureReport')
+                .withPluginClasspath(gradlePluginClasspath.get())
                 .build()
 
         then:
