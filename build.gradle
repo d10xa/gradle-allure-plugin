@@ -1,14 +1,20 @@
 plugins {
     id 'java-gradle-plugin'
     id 'groovy'
+    id 'maven-publish'
+    id "com.jfrog.bintray" version "1.4"
 }
+
+group = "ru.d10xa"
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+apply from: 'gradle/bintray.gradle'
 
 repositories {
     jcenter()
 }
-
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
 
 task createClasspathManifest {
     def outputDir = file("$buildDir/$name")
@@ -28,4 +34,10 @@ dependencies {
         exclude module : "groovy-all"
     }
     testRuntime files(createClasspathManifest)
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
 }
