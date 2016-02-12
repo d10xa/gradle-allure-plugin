@@ -13,11 +13,15 @@ buildscript {
         maven { url 'https://dl.bintray.com/d10xa/maven' }
     }
     dependencies {
-        classpath "ru.d10xa:gradle-allure-plugin:0.1.0"
+        classpath "ru.d10xa:gradle-allure-plugin:0.2.0"
     }
 }
 
 apply plugin: 'ru.d10xa.allure'
+
+allure {
+    geb = true // optional
+}
 ```
 
 ## Tasks
