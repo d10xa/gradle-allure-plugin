@@ -1,5 +1,6 @@
 package ru.d10xa.allure;
 
+import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -9,6 +10,8 @@ import org.gradle.api.tasks.testing.Test;
 public class AllurePlugin implements Plugin<Project> {
 
     private static final String ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY = "allure.results.directory";
+
+    private static final String CONFIGURATION_TEST_COMPILE = "testCompile";
 
     private Project project;
 
@@ -26,6 +29,15 @@ public class AllurePlugin implements Plugin<Project> {
         for (Test test : project.getTasks().withType(Test.class)) {
             test.systemProperty(ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY, this.ext.getAllureResultsDir());
         }
+        this.project.afterEvaluate(new Action<Project>() {
+            @Override
+            public void execute(Project project) {
+                if (ext.isGeb()) {
+                    MavenRepositories.addRepository(project.getRepositories(), MavenRepositories.D10XA_MAVEN);
+                    dependency(CONFIGURATION_TEST_COMPILE, "ru.d10xa", "allure-spock-geb", "0.1.0");
+                }
+            }
+        });
 
         addDependencies();
 
@@ -33,8 +45,13 @@ public class AllurePlugin implements Plugin<Project> {
     }
 
     private void addDependencies() {
-        dependency("allureReport", "ru.yandex.qatools.allure", "allure-bundle", this.ext.getAllureBundleVersion());
-        dependency("testCompile", "ru.yandex.qatools.allure", "allure-spock-1.0-adaptor", "1.0");
+        dependency(
+            AllureReportTask.CONFIGURATION_NAME,
+            "ru.yandex.qatools.allure", "allure-bundle", this.ext.getAllureBundleVersion());
+
+        dependency(
+            CONFIGURATION_TEST_COMPILE,
+            "ru.yandex.qatools.allure", "allure-spock-1.0-adaptor", "1.0");
     }
 
     private void dependency(String configuration, String group, String name, String version) {
