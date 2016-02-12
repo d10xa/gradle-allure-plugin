@@ -14,10 +14,13 @@ public class AllureExtension {
 
     private String allureBundleVersion;
 
+    private boolean geb;
+
     public AllureExtension(Project project) {
         this.allureResultsDir = new File(project.getBuildDir(), "/allure-results").getAbsolutePath();
         this.allureReportDir = new File(project.getBuildDir(), "/allure-report").getAbsolutePath();
         this.allureBundleVersion = "1.4.22";
+        this.geb = false;
     }
 
     public String getAllureResultsDir() {
@@ -42,5 +45,13 @@ public class AllureExtension {
 
     public void setAllureBundleVersion(String allureBundleVersion) {
         this.allureBundleVersion = allureBundleVersion;
+    }
+
+    public boolean isGeb() {
+        return geb;
+    }
+
+    public void setGeb(boolean geb) {
+        this.geb = geb;
     }
 }
