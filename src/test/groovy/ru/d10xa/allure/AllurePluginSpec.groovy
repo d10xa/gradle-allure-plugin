@@ -23,7 +23,7 @@ class AllurePluginSpec extends Specification {
         testFile = testProjectDir.newFile("src/test/groovy/Spec.groovy")
     }
 
-    def 'test'() {
+    def 'results and report directory exists'() {
         given:
         buildFile << """
             plugins {
@@ -71,6 +71,43 @@ class AllurePluginSpec extends Specification {
         result.task(":test").outcome == SUCCESS
         new File(testProjectDir.root, "build/allure-results").list().size() == 1
         new File(testProjectDir.root, "build/allure-report/index.html").exists()
+    }
+
+    def 'create test task after apply plugin'() {
+        given:
+        buildFile << """
+            plugins {
+                id 'groovy'
+                id 'ru.d10xa.allure'
+            }
+            repositories {
+                jcenter()
+            }
+            dependencies {
+                compile 'org.codehaus.groovy:groovy-all:2.4.5'
+                testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+            }
+            task mytest(type:Test) {}
+        """
+
+        testFile << """
+            public class Spec extends spock.lang.Specification {
+                def 'spec'() {
+                    expect:
+                    System.getProperty('allure.results.directory') != null
+                }
+            }
+        """
+
+        when:
+        def result = GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withArguments("mytest")
+                .withPluginClasspath(gradlePluginClasspath.get())
+                .build()
+
+        then:
+        result.task(":mytest").outcome == SUCCESS
     }
 
 }

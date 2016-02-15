@@ -26,15 +26,15 @@ public class AllurePlugin implements Plugin<Project> {
         this.project = project;
         this.cfg = project.getConfigurations().create(AllureReportTask.CONFIGURATION_NAME);
         this.ext = project.getExtensions().create(AllureExtension.NAME, AllureExtension.class, project);
-        for (Test test : project.getTasks().withType(Test.class)) {
-            test.systemProperty(ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY, this.ext.getAllureResultsDir());
-        }
         this.project.afterEvaluate(new Action<Project>() {
             @Override
             public void execute(Project project) {
                 if (ext.isGeb()) {
                     MavenRepositories.addRepository(project.getRepositories(), MavenRepositories.D10XA_MAVEN);
                     dependency(CONFIGURATION_TEST_COMPILE, "ru.d10xa", "allure-spock-geb", "0.1.0");
+                }
+                for (Test test : project.getTasks().withType(Test.class)) {
+                    test.systemProperty(ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY, ext.getAllureResultsDir());
                 }
             }
         });
