@@ -10,10 +10,9 @@ A Gradle plugin that create [Allure](http://allure.qatools.ru/) report for spock
 buildscript {
     repositories {
         jcenter()
-        maven { url 'https://dl.bintray.com/d10xa/maven' }
     }
     dependencies {
-        classpath "ru.d10xa:gradle-allure-plugin:0.2.0"
+        classpath "ru.d10xa:gradle-allure-plugin:0.2.2"
     }
 }
 
@@ -24,8 +23,21 @@ allure {
 }
 ```
 
+## Configuration
+
+- `geb` (boolean) default false.
+Adds [allure-spock-geb](https://github.com/d10xa/allure-spock-geb)
+dependency for screenshot and html attachments.
+Specifications must extend geb.spock.GebReportingSpec class
+
 ## Tasks
 
 ### `allureReport`
 
 Creates html report for your tests.
+
+Add following snippet to build script if you want to create allure report after every test execution
+
+```groovy
+tasks.withType(Test)*.finalizedBy allureReport
+```
