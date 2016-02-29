@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class TestProjectDirSpec extends Specification {
 
-    @TestProjectDir(dir = "allure-report-task", clean = false, copy = false)
+    @TestProjectDir(dir = "allure-report-task", clean = false, copy = true)
     @Shared
     File testProjectDirectory
 
