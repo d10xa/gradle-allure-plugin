@@ -42,10 +42,12 @@ abstract class AbstractTestProjectDirInterceptor extends AbstractMethodIntercept
         def to = new File("build/gradle-testkit", annotation.dir())
         def from = new File("src/it", annotation.dir())
         assert from.isDirectory()
-        if(to.exists()){
+        if(to.exists() && annotation.clean()){
             FileUtils.cleanDirectory(to)
         }
-        FileUtils.copyDirectory(from, to)
+        if(annotation.copy()){
+            FileUtils.copyDirectory(from, to)
+        }
         getSpecification(invocation)."$field.name" = to
         invocation.proceed()
     }

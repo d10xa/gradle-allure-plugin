@@ -12,4 +12,6 @@ import java.lang.annotation.Target
 @ExtensionAnnotation(TestProjectDirExtension)
 @interface TestProjectDir {
     String dir() default 'testkit'
+    boolean clean() default true
+    boolean copy() default true
 }

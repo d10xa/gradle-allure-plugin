@@ -5,8 +5,9 @@ import spock.lang.Specification
 
 class TestProjectDirSpec extends Specification {
 
-    @TestProjectDir(dir = "allure-report-task")
-    @Shared File testProjectDirectory
+    @TestProjectDir(dir = "allure-report-task", clean = false, copy = false)
+    @Shared
+    File testProjectDirectory
 
     def 'expect shared test project directory exists'() {
         expect:
