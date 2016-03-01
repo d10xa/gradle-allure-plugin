@@ -31,7 +31,7 @@ public class AllurePlugin implements Plugin<Project> {
             public void execute(Project project) {
                 if (ext.isGeb()) {
                     MavenRepositories.addRepository(project.getRepositories(), MavenRepositories.D10XA_MAVEN);
-                    dependency(CONFIGURATION_TEST_COMPILE, "ru.d10xa", "allure-spock-geb", "0.2.0");
+                    dependency(CONFIGURATION_TEST_COMPILE, "ru.d10xa", "allure-spock-geb", "0.2.1");
                 }
                 for (Test test : project.getTasks().withType(Test.class)) {
                     test.systemProperty(ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY, ext.getAllureResultsDir());

@@ -25,8 +25,14 @@ class AllureGebDependencySpec extends Specification {
                 .withPluginClasspath(pluginClasspath)
                 .build()
 
+        String html = new File(testProjectDirectory, 'build/allure-results')
+                .listFiles()
+                .find { it.name.endsWith 'html' }
+                .text
+
         then:
         result.task(":test").outcome == SUCCESS
+        html.contains('Geb - Very Groovy Browser Automation')
     }
 
 }
