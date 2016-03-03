@@ -5,6 +5,8 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.plugins.JavaPlugin;
+import org.gradle.api.plugins.PluginCollection;
 import org.gradle.api.tasks.testing.Test;
 
 public class AllurePlugin implements Plugin<Project> {
@@ -24,6 +26,7 @@ public class AllurePlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         this.project = project;
+        PluginCollection<JavaPlugin> javaPlugins = this.project.getPlugins().withType(JavaPlugin.class);
         this.cfg = project.getConfigurations().create(AllureReportTask.CONFIGURATION_NAME);
         this.ext = project.getExtensions().create(AllureExtension.NAME, AllureExtension.class, project);
         this.project.afterEvaluate(new Action<Project>() {
@@ -39,7 +42,9 @@ public class AllurePlugin implements Plugin<Project> {
             }
         });
 
-        addDependencies();
+        if (!javaPlugins.isEmpty()) {
+            addDependencies();
+        }
 
         this.allureReportTask = project.getTasks().create(AllureReportTask.NAME, AllureReportTask.class);
     }

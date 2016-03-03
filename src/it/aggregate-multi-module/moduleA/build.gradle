@@ -1,0 +1,6 @@
+plugins {
+    id 'ru.d10xa.allure'
+}
+repositories {
+    jcenter()
+}

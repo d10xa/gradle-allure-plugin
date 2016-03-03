@@ -1,0 +1,10 @@
+plugins {
+    id 'java'
+    id 'ru.d10xa.allure'
+}
+repositories {
+    jcenter()
+}
+allure {
+    allureResultsDir = 'moduleA/build/allure-results'
+}
