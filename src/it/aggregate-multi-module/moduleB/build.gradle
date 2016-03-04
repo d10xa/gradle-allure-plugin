@@ -1,6 +1,9 @@
-plugins {
-    id 'ru.d10xa.allure'
-}
+apply plugin: 'ru.d10xa.allure'
+
 repositories {
     jcenter()
+}
+
+allure {
+    allureResultsDir = "$buildDir/my-allure-results"
 }

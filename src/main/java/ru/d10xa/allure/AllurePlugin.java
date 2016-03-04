@@ -42,18 +42,27 @@ public class AllurePlugin implements Plugin<Project> {
             }
         });
 
-        if (!javaPlugins.isEmpty()) {
-            addDependencies();
-        }
-
-        this.allureReportTask = project.getTasks().create(AllureReportTask.NAME, AllureReportTask.class);
-    }
-
-    private void addDependencies() {
         dependency(
             AllureReportTask.CONFIGURATION_NAME,
             "ru.yandex.qatools.allure", "allure-bundle", this.ext.getAllureBundleVersion());
 
+        if (!javaPlugins.isEmpty()) {
+            addDependencies();
+        }
+
+        createTaskIfNeed(project);
+    }
+
+    private void createTaskIfNeed(Project project) {
+        boolean currentProjectIsRoot = project.getRootProject() == project;
+        boolean rootProjectHasAllurePlugin = project.getRootProject().getPlugins().hasPlugin(AllurePlugin.class);
+        if(!currentProjectIsRoot && rootProjectHasAllurePlugin){
+            return;
+        }
+        this.allureReportTask = project.getTasks().create(AllureReportTask.NAME, AllureReportTask.class);
+    }
+
+    private void addDependencies() {
         dependency(
             CONFIGURATION_TEST_COMPILE,
             "ru.yandex.qatools.allure", "allure-spock-1.0-adaptor", "1.0");

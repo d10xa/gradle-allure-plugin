@@ -2,9 +2,14 @@ plugins {
     id 'java'
     id 'ru.d10xa.allure'
 }
+
 repositories {
     jcenter()
 }
-allure {
-    allureResultsDir = 'moduleA/build/allure-results'
+
+allureReport {
+    results(
+            "${project(':moduleA').buildDir}/allure-results",
+            "${project(':moduleB').buildDir}/my-allure-results",
+    )
 }

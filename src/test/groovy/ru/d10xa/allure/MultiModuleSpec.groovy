@@ -17,6 +17,21 @@ class MultiModuleSpec extends Specification {
     @GradlePluginClasspath
     List<File> pluginClasspath
 
+    def setupSpec() {
+        File.metaClass.containsOnly = { String... dirs ->
+            if (!delegate.directory) {
+                return false
+            }
+            if (delegate.listFiles().size() != dirs.size()) {
+                return false
+            }
+            if (!delegate.list().every { dirs.contains(it) }) {
+                return false
+            }
+            return true
+        }
+    }
+
     def 'create report for modules'() {
         when:
         def result = GradleRunner.create()
@@ -26,7 +41,21 @@ class MultiModuleSpec extends Specification {
                 .build()
 
         then:
+
         result.task(":allureReport").outcome == SUCCESS
+
+        file "build" containsOnly 'allure-report'
+        file "moduleA/build" containsOnly 'allure-results'
+        file "moduleB/build" containsOnly 'my-allure-results'
+
+        file('build/allure-report/data')
+                .list()
+                .findAll { it.endsWith '-testcase.json' }.size() == 2
+
+    }
+
+    private File file(String path) {
+        new File(testProjectDirectory, path)
     }
 
 }
