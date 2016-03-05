@@ -1,11 +1,11 @@
-import spock.lang.Stepwise
 import geb.spock.GebReportingSpec
+import spock.lang.Stepwise
 
 @Stepwise
 public class GebSpec extends GebReportingSpec {
 
     def 'every step ends with report method execution'() {
-        go 'http://www.gebish.org/'
+        go 'file://' + new File('page-with-title.html').absolutePath
 
         expect:
         title == 'Geb - Very Groovy Browser Automation'
