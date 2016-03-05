@@ -10,7 +10,7 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class MultiModuleSpec extends Specification {
 
-    @TestProjectDir(dir = "aggregate-multi-module")
+    @TestProjectDir(dir = "multi-module")
     @Shared
     File testProjectDirectory
 
