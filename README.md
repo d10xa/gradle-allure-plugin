@@ -30,14 +30,46 @@ Adds [allure-spock-geb](https://github.com/d10xa/allure-spock-geb)
 dependency for screenshot and html attachments.
 Specifications must extend geb.spock.GebReportingSpec class
 
+- `allureResultsDir` (string) default "$buildDir/allure-results".
+Test results will be placed to this directory. 
+
+- `allureReportDir` (string) default "$buildDir/allure-report".
+Html report will be generated to this directory 
+(if task's property `to` not defined) 
+
+- `allureBundleVersion` (string). 
+Version of "ru.yandex.qatools.allure:allure-bundle"
+
 ## Tasks
 
 ### `allureReport`
 
-Creates html report for your tests.
+Creates html report for tests.
 
 Add following snippet to build script if you want to create allure report after every test execution
 
 ```groovy
 tasks.withType(Test)*.finalizedBy allureReport
+```
+
+If you don't need this task(for example in child modules) - just delete it
+```groovy
+tasks.remove allureReport
+```
+
+Customize task's parameters
+```groovy
+allureReport {
+    from(
+            "${project(':moduleA').buildDir}/allure-results",
+            "${project(':moduleB').buildDir}/my-allure-results",
+    )
+    to '$buildDir/pretty-awesome-report'
+}
+```
+
+Or create your own task
+```groovy
+task customAllureReport(type: ru.d10xa.allure.AllureReportTask){
+}
 ```
