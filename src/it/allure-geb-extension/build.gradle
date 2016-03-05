@@ -18,3 +18,7 @@ test {
 allure {
     geb = true
 }
+
+task customAllureReport(type: ru.d10xa.allure.AllureReportTask) {
+    reportDir "$buildDir/my-allure-report"
+}

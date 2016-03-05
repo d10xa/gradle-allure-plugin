@@ -1,5 +1,6 @@
 package ru.d10xa.allure
 
+import groovy.transform.Memoized
 import org.gradle.testkit.runner.GradleRunner
 import ru.d10xa.allure.extension.GradlePluginClasspath
 import ru.d10xa.allure.extension.TestProjectDir
@@ -15,24 +16,43 @@ class AllureGebDependencySpec extends Specification {
     File testProjectDirectory
 
     @GradlePluginClasspath
+    @Shared
     List<File> pluginClasspath
 
-    def 'results and report directory exists'() {
-        when:
-        def result = GradleRunner.create()
+    @Memoized
+    def getBuildResult() {
+        GradleRunner.create()
                 .withProjectDir(testProjectDirectory)
-                .withArguments('test')
+                .withArguments('test', 'customAllureReport')
                 .withPluginClasspath(pluginClasspath)
                 .build()
+    }
 
+    def 'success execution'() {
+        expect:
+        buildResult.task(":test").outcome == SUCCESS
+    }
+
+    def 'html attachment found in results'() {
+        when:
         String html = new File(testProjectDirectory, 'build/allure-results')
                 .listFiles()
-                .find { it.name.endsWith 'html' }
+                .find { it.name.endsWith '-attachment.html' }
                 .text
 
         then:
-        result.task(":test").outcome == SUCCESS
-        html.contains('Geb - Very Groovy Browser Automation')
+        html.contains 'Geb - Very Groovy Browser Automation'
+    }
+
+    def 'html attachment found in report data'() {
+        when:
+        int attachmentsCount = new File(testProjectDirectory, 'build/my-allure-report/data')
+                .list()
+                .findAll { it.endsWith '-attachment.html' }
+                .size()
+
+        then:
+        attachmentsCount == 1
     }
 
 }

@@ -19,6 +19,8 @@ public class AllureReportTask extends JavaExec {
 
     private Set<Object> resultDirs;
 
+    private Object reportDir;
+
     public AllureReportTask() {
         this.resultDirs = new LinkedHashSet<Object>();
     }
@@ -41,8 +43,11 @@ public class AllureReportTask extends JavaExec {
         if (args.isEmpty()) {
             args.add(getAllureExtension().getAllureResultsDir());
         }
-        args.add(getAllureExtension().getAllureReportDir());
-        System.out.println(args);
+        if(this.reportDir != null){
+            args.add(this.reportDir.toString());
+        } else {
+            args.add(getAllureExtension().getAllureReportDir());
+        }
         return args;
     }
 
@@ -55,6 +60,10 @@ public class AllureReportTask extends JavaExec {
         for (Object result : results) {
             this.resultDirs.add(result);
         }
+    }
+
+    public void reportDir(Object reportDir) {
+        this.reportDir = reportDir;
     }
 
 }

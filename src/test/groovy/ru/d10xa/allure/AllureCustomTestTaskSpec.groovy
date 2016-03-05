@@ -1,5 +1,6 @@
 package ru.d10xa.allure
 
+import groovy.transform.Memoized
 import org.gradle.testkit.runner.GradleRunner
 import ru.d10xa.allure.extension.GradlePluginClasspath
 import ru.d10xa.allure.extension.TestProjectDir
@@ -17,16 +18,18 @@ class AllureCustomTestTaskSpec extends Specification {
     @GradlePluginClasspath
     List<File> pluginClasspath
 
-    def 'create test task after apply plugin'() {
-        when:
-        def result = GradleRunner.create()
+    @Memoized
+    def getBuildResult() {
+        GradleRunner.create()
                 .withProjectDir(testProjectDirectory)
                 .withArguments("mytest")
                 .withPluginClasspath(pluginClasspath)
                 .build()
+    }
 
-        then:
-        result.task(":mytest").outcome == SUCCESS
+    def 'test task declared after plugin applying'() {
+        expect:
+        buildResult.task(":mytest").outcome == SUCCESS
     }
 
 }
