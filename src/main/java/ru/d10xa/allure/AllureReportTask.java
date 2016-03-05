@@ -55,14 +55,14 @@ public class AllureReportTask extends JavaExec {
         return getProject().getExtensions().findByType(AllureExtension.class);
     }
 
-    public void results(Object... results) {
+    public void from(Object... results) {
         this.resultDirs = new LinkedHashSet<Object>();
         for (Object result : results) {
             this.resultDirs.add(result);
         }
     }
 
-    public void reportDir(Object reportDir) {
+    public void to(Object reportDir) {
         this.reportDir = reportDir;
     }
 

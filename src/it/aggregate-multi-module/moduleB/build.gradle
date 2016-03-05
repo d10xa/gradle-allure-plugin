@@ -7,3 +7,5 @@ repositories {
 allure {
     allureResultsDir = "$buildDir/my-allure-results"
 }
+
+tasks.remove allureReport

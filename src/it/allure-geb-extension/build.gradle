@@ -20,5 +20,5 @@ allure {
 }
 
 task customAllureReport(type: ru.d10xa.allure.AllureReportTask) {
-    reportDir "$buildDir/my-allure-report"
+    to "$buildDir/my-allure-report"
 }

@@ -8,7 +8,7 @@ repositories {
 }
 
 allureReport {
-    results(
+    from(
             "${project(':moduleA').buildDir}/allure-results",
             "${project(':moduleB').buildDir}/my-allure-results",
     )
