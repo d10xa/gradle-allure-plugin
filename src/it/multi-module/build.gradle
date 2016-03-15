@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+    id 'ru.d10xa.allure'
+}
+
+repositories {
+    jcenter()
+}
+
+allureReport {
+    from(
+            "${project(':moduleA').buildDir}/allure-results",
+            "${project(':moduleB').buildDir}/my-allure-results",
+    )
+}

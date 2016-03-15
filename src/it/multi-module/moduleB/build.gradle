@@ -1,0 +1,11 @@
+apply plugin: 'ru.d10xa.allure'
+
+repositories {
+    jcenter()
+}
+
+allure {
+    allureResultsDir = "$buildDir/my-allure-results"
+}
+
+tasks.remove allureReport

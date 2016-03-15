@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:test-suite start="1456829603001" stop="1456829603050" version="1.4.15" xmlns:ns2="urn:model.allure.qatools.yandex.ru">
+    <name>ModuleASpec</name>
+    <test-cases>
+        <test-case start="1456829603006" stop="1456829603039" status="passed">
+            <name>spec</name>
+            <steps/>
+            <attachments/>
+            <labels>
+                <label name="host" value="arch"/>
+                <label name="thread" value="2617@arch.Test worker(11)"/>
+            </labels>
+        </test-case>
+    </test-cases>
+    <labels>
+        <label name="language" value="JAVA"/>
+    </labels>
+</ns2:test-suite>

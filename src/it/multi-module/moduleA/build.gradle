@@ -1,0 +1,7 @@
+apply plugin: 'ru.d10xa.allure'
+
+repositories {
+    jcenter()
+}
+
+tasks.remove allureReport
