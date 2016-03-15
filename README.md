@@ -18,8 +18,12 @@ buildscript {
 
 apply plugin: 'ru.d10xa.allure'
 
+// This config is optional
 allure {
-    geb = true // optional
+    geb = true
+    allureResultsDir = "$buildDir/allure-results"
+    allureReportDir = "$buildDir/allure-report"
+    allureBundleVersion = "1.4.22"
 }
 ```
 
@@ -64,7 +68,7 @@ allureReport {
             "${project(':moduleA').buildDir}/allure-results",
             "${project(':moduleB').buildDir}/my-allure-results",
     )
-    to '$buildDir/pretty-awesome-report'
+    to '$buildDir/nice-report'
 }
 ```
 
