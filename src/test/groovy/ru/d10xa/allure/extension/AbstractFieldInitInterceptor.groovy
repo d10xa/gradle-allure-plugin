@@ -15,7 +15,7 @@ abstract class AbstractFieldInitInterceptor<T extends Annotation> extends Abstra
     protected FieldInfo field
     protected T annotation
 
-    AbstractFieldInitInterceptor(T annotation, FieldInfo field) {
+    protected AbstractFieldInitInterceptor(T annotation, FieldInfo field) {
         this.annotation = annotation
         this.field = field
     }
