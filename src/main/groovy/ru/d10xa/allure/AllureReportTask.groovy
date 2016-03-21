@@ -19,7 +19,7 @@ public class AllureReportTask extends JavaExec {
     private Object reportDir
 
     public AllureReportTask() {
-        this.resultDirs = new LinkedHashSet<Object>();
+        this.resultDirs = new LinkedHashSet<Object>()
     }
 
     @Override
@@ -28,7 +28,7 @@ public class AllureReportTask extends JavaExec {
         args(collectArguments())
         setMain(ALLURE_MAIN_CLASS)
         classpath(getProject().getConfigurations().getByName("allureReport"))
-        super.exec();
+        super.exec()
     }
 
     @Input
@@ -37,30 +37,30 @@ public class AllureReportTask extends JavaExec {
         for (Object resultDir : this.resultDirs) {
             args.add(resultDir.toString());
         }
-        if (args.isEmpty()) {
+        if (args.empty) {
             args.add(getAllureExtension().getAllureResultsDir())
         }
         if (this.reportDir != null) {
-            args.add(this.reportDir.toString());
+            args.add(this.reportDir.toString())
         } else {
             args.add(getAllureExtension().getAllureReportDir())
         }
-        return args;
+        args
     }
 
     private AllureExtension getAllureExtension() {
-        return getProject().getExtensions().findByType(AllureExtension.class);
+        return project.extensions.findByType(AllureExtension.class)
     }
 
     public void from(Object... results) {
-        this.resultDirs = new LinkedHashSet<Object>();
+        this.resultDirs = new LinkedHashSet<Object>()
         for (Object result : results) {
-            this.resultDirs.add(result);
+            this.resultDirs.add(result)
         }
     }
 
     public void to(Object reportDir) {
-        this.reportDir = reportDir;
+        this.reportDir = reportDir
     }
 
 }

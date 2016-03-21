@@ -43,12 +43,12 @@ public class AllurePlugin implements Plugin<Project> {
 
     private static void applyGeb(Project project, AllureExtension ext) {
         if (ext.geb) {
-            addD10xaRepositrory(project)
+            addD10xaRepository(project)
             project.dependencies.add(CONFIGURATION_TEST_COMPILE, "ru.d10xa:allure-spock-geb:0.2.1")
         }
     }
 
-    private static void addD10xaRepositrory(Project project) {
+    private static void addD10xaRepository(Project project) {
         project.repositories.maven { MavenArtifactRepository repo ->
             repo.setUrl("https://dl.bintray.com/d10xa/maven")
         }
