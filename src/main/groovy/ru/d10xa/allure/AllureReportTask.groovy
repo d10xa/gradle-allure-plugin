@@ -33,19 +33,27 @@ public class AllureReportTask extends JavaExec {
 
     @Input
     private List<String> collectArguments() {
-        List<String> args = new ArrayList<String>(this.resultDirs.size() + 1)
-        for (Object resultDir : this.resultDirs) {
-            args.add(resultDir.toString());
+        def arguments = this.resultDirs.collect { it.toString() }
+
+        if (logger.debugEnabled) {
+            def dirs = arguments.collect { new File(it) }
+            dirs.findAll { !it.directory }.each {
+                logger.debug "resultsDir: $it is not directory"
+            }
+            dirs.findAll { it.directory && it.list().length == 0 }.each {
+                logger.debug "resultsDir: $it is empty directory"
+            }
         }
-        if (args.empty) {
-            args.add(getAllureExtension().getAllureResultsDir())
+
+        if (arguments.empty) {
+            arguments.add(allureExtension.allureResultsDir)
         }
         if (this.reportDir != null) {
-            args.add(this.reportDir.toString())
+            arguments.add(this.reportDir.toString())
         } else {
-            args.add(getAllureExtension().getAllureReportDir())
+            arguments.add(allureExtension.allureReportDir)
         }
-        args
+        arguments
     }
 
     private AllureExtension getAllureExtension() {

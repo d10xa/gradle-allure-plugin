@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+    id 'ru.d10xa.allure'
+}
+
+repositories {
+    jcenter()
+}
+
+allureReport {
+    from(
+            "$buildDir/allure-results",
+            "$buildDir/nonexistent-folder",
+    )
+}
