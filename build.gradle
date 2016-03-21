@@ -1,11 +1,12 @@
 plugins {
     id 'java-gradle-plugin'
     id 'groovy'
+    id 'codenarc'
     id 'maven-publish'
     id "com.jfrog.bintray" version "1.4"
 }
-
 group = "ru.d10xa"
+codenarcTest.enabled = false
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -29,6 +30,7 @@ task createClasspathManifest {
 }
 
 dependencies {
+    compile localGroovy()
     testCompile gradleTestKit()
     testCompile ('org.spockframework:spock-core:1.0-groovy-2.4'){
         exclude module : "groovy-all"
