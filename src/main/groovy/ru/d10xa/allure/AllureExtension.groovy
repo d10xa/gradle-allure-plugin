@@ -11,16 +11,20 @@ class AllureExtension {
     AllureExtension(Project project) {
         this.allureResultsDir = new File(project.buildDir, "/allure-results").absolutePath
         this.allureReportDir = new File(project.buildDir, "/allure-report").absolutePath
-        this.allureBundleVersion = "1.4.22"
-        this.geb = false;
     }
 
     String allureResultsDir
 
     String allureReportDir
 
-    String allureBundleVersion
+    String allureVersion = "1.4.23"
+
+    String aspectjVersion = "1.8.9"
 
     boolean geb
+
+    boolean aspectjweaver
+
+    boolean testNG
 
 }

@@ -21,9 +21,12 @@ apply plugin: 'ru.d10xa.allure'
 // This config is optional
 allure {
     geb = true
+    aspectjweaver = false
+    testNG = false
     allureResultsDir = "$buildDir/allure-results"
     allureReportDir = "$buildDir/allure-report"
-    allureBundleVersion = "1.4.22"
+    allureVersion = "1.4.22"
+    aspectjVersion = "1.8.9"
 }
 ```
 
@@ -34,6 +37,12 @@ Adds [allure-spock-geb](https://github.com/d10xa/allure-spock-geb)
 dependency for screenshot and html attachments.
 Specifications must extend geb.spock.GebReportingSpec class
 
+- `aspectjweaver` (boolean) default false.
+Adds `-javaagent` to tests
+
+- `testNG` (boolean) default false.
+Enables report creation for testNG. 
+
 - `allureResultsDir` (string) default "$buildDir/allure-results".
 Test results will be placed to this directory. 
 
@@ -41,8 +50,11 @@ Test results will be placed to this directory.
 Html report will be generated to this directory 
 (if task's property `to` not defined) 
 
-- `allureBundleVersion` (string). 
-Version of "ru.yandex.qatools.allure:allure-bundle"
+- `allureVersion` (string). 
+Version of allure-bundle and allure-adaptors
+
+- `aspectjVersion` (string).
+Version of `org.aspectj:aspectjweaver`
 
 ## Tasks
 

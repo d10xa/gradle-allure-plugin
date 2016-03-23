@@ -11,9 +11,12 @@ import org.gradle.api.tasks.testing.Test
 @CompileStatic
 public class AllurePlugin implements Plugin<Project> {
 
-    private static final String ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY = "allure.results.directory"
+    private static final
+    String ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY = "allure.results.directory"
 
     private static final String CONFIGURATION_TEST_COMPILE = "testCompile"
+
+    private final static String CONFIGURATION_ASPECTJWEAVER = "aspectjweaverAgent"
 
     @Override
     public void apply(Project project) {
@@ -21,6 +24,8 @@ public class AllurePlugin implements Plugin<Project> {
         AllureExtension ext = configureAllureExtension(project)
         project.afterEvaluate {
             applyGeb(project, ext)
+            applyAspectjweaver(project, ext)
+            applyTestNg(project, ext)
             configureResultsDirSystemProperty(project, ext)
         }
         configureBundle(project, ext)
@@ -41,10 +46,35 @@ public class AllurePlugin implements Plugin<Project> {
         }
     }
 
+    private static void applyAspectjweaver(Project project, AllureExtension ext) {
+        if (ext.aspectjweaver) {
+            def aspectjConfiguration = project.configurations.maybeCreate(
+                    CONFIGURATION_ASPECTJWEAVER)
+
+            project.dependencies.add(CONFIGURATION_ASPECTJWEAVER,
+                    "org.aspectj:aspectjweaver:${ext.aspectjVersion}")
+
+            project.tasks.withType(Test).each { test ->
+                test.doFirst {
+                    String javaAgent = "-javaagent:${aspectjConfiguration.singleFile}"
+                    test.jvmArgs = [javaAgent] + test.jvmArgs
+                }
+            }
+        }
+    }
+
     private static void applyGeb(Project project, AllureExtension ext) {
         if (ext.geb) {
             addD10xaRepository(project)
-            project.dependencies.add(CONFIGURATION_TEST_COMPILE, "ru.d10xa:allure-spock-geb:0.2.1")
+            project.dependencies.add(CONFIGURATION_TEST_COMPILE,
+                    "ru.d10xa:allure-spock-geb:0.2.1")
+        }
+    }
+
+    private static void applyTestNg(Project project, AllureExtension ext) {
+        if (ext.testNG) {
+            project.dependencies.add("testCompile",
+                    "ru.yandex.qatools.allure:allure-testng-adaptor:$ext.allureVersion")
         }
     }
 
@@ -63,7 +93,7 @@ public class AllurePlugin implements Plugin<Project> {
     private static void configureBundle(Project project, AllureExtension ext) {
         project.dependencies.add(
                 AllureReportTask.CONFIGURATION_NAME,
-                "ru.yandex.qatools.allure:allure-bundle:$ext.allureBundleVersion")
+                "ru.yandex.qatools.allure:allure-bundle:$ext.allureVersion")
     }
 
 }

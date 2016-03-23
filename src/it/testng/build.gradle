@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'ru.d10xa.allure'
+}
+allure {
+    aspectjweaver = true
+    testNG = true
+}
+repositories {
+    jcenter()
+}
+dependencies {
+    testCompile 'org.testng:testng:6.8'
+}
+test {
+    useTestNG()
+}
