@@ -2,6 +2,9 @@ plugins {
     id 'groovy'
     id 'ru.d10xa.allure'
 }
+allure {
+    spock = true
+}
 repositories {
     jcenter()
 }
