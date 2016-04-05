@@ -4,8 +4,6 @@ import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
-import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.plugins.PluginCollection
 import org.gradle.api.tasks.testing.Test
 
 @CompileStatic
@@ -23,13 +21,15 @@ public class AllurePlugin implements Plugin<Project> {
         project.configurations.create(AllureReportTask.CONFIGURATION_NAME)
         AllureExtension ext = configureAllureExtension(project)
         project.afterEvaluate {
-            applyGeb(project, ext)
+            applyAllureSpockAdaptor(project, ext)
+            applyTestNgAdaptor(project, ext)
+            applyAllureJunitAdaptor(project, ext)
+
             applyAspectjweaver(project, ext)
-            applyTestNg(project, ext)
+            applyGeb(project, ext)
             configureResultsDirSystemProperty(project, ext)
+            configureBundle(project, ext)
         }
-        configureBundle(project, ext)
-        applyAllureSpockAdaptor(project, ext)
         project.tasks.create(AllureReportTask.NAME, AllureReportTask)
     }
 
@@ -38,11 +38,22 @@ public class AllurePlugin implements Plugin<Project> {
     }
 
     private static void applyAllureSpockAdaptor(Project project, AllureExtension ext) {
-        PluginCollection<JavaPlugin> javaPlugins = project.plugins.withType(JavaPlugin.class)
-        if (!javaPlugins.empty) {
+        if (ext.spock) {
             project.dependencies.add(
                     CONFIGURATION_TEST_COMPILE,
                     "ru.yandex.qatools.allure:allure-spock-1.0-adaptor:1.0")
+        }
+    }
+
+    private static void applyAllureJunitAdaptor(Project project, AllureExtension ext) {
+        if (ext.junit) {
+            addD10xaRepository(project)
+            project.dependencies.add(
+                    CONFIGURATION_TEST_COMPILE,
+                    "ru.d10xa:allure-junit-aspectj-adaptor:0.1.0")
+            project.dependencies.add(
+                    CONFIGURATION_TEST_COMPILE,
+                    "ru.yandex.qatools.allure:allure-junit-adaptor:${ext.allureVersion}")
         }
     }
 
@@ -71,9 +82,9 @@ public class AllurePlugin implements Plugin<Project> {
         }
     }
 
-    private static void applyTestNg(Project project, AllureExtension ext) {
+    private static void applyTestNgAdaptor(Project project, AllureExtension ext) {
         if (ext.testNG) {
-            project.dependencies.add("testCompile",
+            project.dependencies.add(CONFIGURATION_TEST_COMPILE,
                     "ru.yandex.qatools.allure:allure-testng-adaptor:$ext.allureVersion")
         }
     }

@@ -16,6 +16,7 @@ test {
     systemProperty "geb.build.reportsDir", file("$buildDir/geb")
 }
 allure {
+    spock = true
     geb = true
 }
 

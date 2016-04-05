@@ -2,7 +2,8 @@
 [![Download](https://api.bintray.com/packages/d10xa/maven/ru.d10xa%3Agradle-allure-plugin/images/download.svg)](https://bintray.com/d10xa/maven/ru.d10xa%3Agradle-allure-plugin/_latestVersion)
 [![Build Status](https://travis-ci.org/d10xa/gradle-allure-plugin.svg?branch=master)](https://travis-ci.org/d10xa/gradle-allure-plugin)
 
-A Gradle plugin that create [Allure](http://allure.qatools.ru/) report for spock tests.
+Gradle Allure Plugin allows you to integrate 
+[Allure](http://allure.qatools.ru/) into spock, testng and junit tests.
 
 ## Usage
 
@@ -12,19 +13,24 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "ru.d10xa:gradle-allure-plugin:0.2.2"
+        classpath "ru.d10xa:gradle-allure-plugin:0.5.0"
     }
 }
 
 apply plugin: 'ru.d10xa.allure'
 
-// This config is optional
 allure {
-    geb = true
-    aspectjweaver = false
+    aspectjweaver = true
+    
+    junit = true
     testNG = false
+    spock = false
+    
+    geb = false
+    
     allureResultsDir = "$buildDir/allure-results"
     allureReportDir = "$buildDir/allure-report"
+    
     allureVersion = "1.4.22"
     aspectjVersion = "1.8.9"
 }
@@ -32,16 +38,25 @@ allure {
 
 ## Configuration
 
+- `aspectjweaver` (boolean) default false.
+Adds `-javaagent` to tests
+
+- `junit` (boolean) default false.
+Enables allure for junit without @RunWith usage. 
+(Adds [allure-junit-aspectj-adaptor](https://github.com/d10xa/allure-junit-aspectj-adaptor)) based on AspectJ. 
+Require `aspectjweaver`
+
+- `testNG` (boolean) default false.
+Enables allure for testNG. 
+Require `aspectjweaver`
+
+- `spock` (boolean) default false.
+Enables allure for spock. 
+
 - `geb` (boolean) default false.
 Adds [allure-spock-geb](https://github.com/d10xa/allure-spock-geb)
 dependency for screenshot and html attachments.
 Specifications must extend geb.spock.GebReportingSpec class
-
-- `aspectjweaver` (boolean) default false.
-Adds `-javaagent` to tests
-
-- `testNG` (boolean) default false.
-Enables report creation for testNG. 
 
 - `allureResultsDir` (string) default "$buildDir/allure-results".
 Test results will be placed to this directory. 

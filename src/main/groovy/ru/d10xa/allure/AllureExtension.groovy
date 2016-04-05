@@ -21,10 +21,14 @@ class AllureExtension {
 
     String aspectjVersion = "1.8.9"
 
+    boolean spock
+
+    boolean testNG
+
+    boolean junit
+
     boolean geb
 
     boolean aspectjweaver
-
-    boolean testNG
 
 }
