@@ -76,7 +76,7 @@ public class AllurePlugin implements Plugin<Project> {
         if (ext.geb) {
             addD10xaRepository(project)
             project.dependencies.add(ext.configuration,
-                    "ru.d10xa:allure-spock-geb:0.2.1")
+                    "ru.d10xa:allure-spock-geb:$ext.allureSpockGebExtensionVersion")
         }
     }
 
