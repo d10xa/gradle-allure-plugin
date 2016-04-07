@@ -23,6 +23,7 @@ class JunitSpec extends Specification {
     def getBuildResult() {
         GradleRunner.create()
                 .withProjectDir(testProjectDirectory)
+                .withTestKitDir(new File(testProjectDirectory.parentFile.absolutePath, '.gradle'))
                 .withArguments('test', 'allureReport')
                 .withPluginClasspath(pluginClasspath)
                 .build()

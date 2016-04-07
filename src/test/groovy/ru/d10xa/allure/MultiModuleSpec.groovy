@@ -36,6 +36,7 @@ class MultiModuleSpec extends Specification {
         when:
         def result = GradleRunner.create()
                 .withProjectDir(testProjectDirectory)
+                .withTestKitDir(new File(testProjectDirectory.parentFile.absolutePath, '.gradle'))
                 .withArguments("allureReport", "--stacktrace")
                 .withPluginClasspath(pluginClasspath)
                 .build()
