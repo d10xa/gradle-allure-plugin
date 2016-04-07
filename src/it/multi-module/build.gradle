@@ -9,7 +9,8 @@ repositories {
 
 allureReport {
     from(
-            "${project(':moduleA').buildDir}/allure-results",
+            project(':moduleA'),
             "${project(':moduleB').buildDir}/my-allure-results",
+            "$buildDir/missing-directory",
     )
 }

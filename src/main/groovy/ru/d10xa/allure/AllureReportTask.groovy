@@ -1,6 +1,7 @@
 package ru.d10xa.allure
 
 import groovy.transform.CompileStatic
+import org.gradle.api.Project
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.TaskAction
@@ -33,7 +34,7 @@ public class AllureReportTask extends JavaExec {
 
     @Input
     private List<String> collectArguments() {
-        def arguments = this.resultDirs.collect { it.toString() }
+        def arguments = this.resultDirs.collect resultDirCollector
 
         if (logger.debugEnabled) {
             def dirs = arguments.collect { new File(it) }
@@ -54,6 +55,16 @@ public class AllureReportTask extends JavaExec {
             arguments.add(allureExtension.allureReportDir)
         }
         arguments
+    }
+
+    private static Closure<String> getResultDirCollector() {
+        def closure = {
+            if (it instanceof Project) {
+                return it.extensions.getByType(AllureExtension).allureResultsDir
+            }
+            return it.toString()
+        }
+        return closure
     }
 
     private AllureExtension getAllureExtension() {
