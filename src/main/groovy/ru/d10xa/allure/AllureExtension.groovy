@@ -21,6 +21,8 @@ class AllureExtension {
 
     String aspectjVersion = "1.8.9"
 
+    String configuration = "testCompile"
+
     boolean spock
 
     boolean testNG

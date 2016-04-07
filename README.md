@@ -71,6 +71,11 @@ Version of allure-bundle and allure-adaptors
 - `aspectjVersion` (string).
 Version of `org.aspectj:aspectjweaver`
 
+- `configuration` (string) default 'testCompile'.
+Apply adaptors to this configuration. 
+For example, you can select the configuration 'compile' 
+and use the adaptor classes in your source code.
+
 ## Tasks
 
 ### `allureReport`

@@ -12,8 +12,6 @@ public class AllurePlugin implements Plugin<Project> {
     private static final
     String ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY = "allure.results.directory"
 
-    private static final String CONFIGURATION_TEST_COMPILE = "testCompile"
-
     private final static String CONFIGURATION_ASPECTJWEAVER = "aspectjweaverAgent"
 
     @Override
@@ -40,7 +38,7 @@ public class AllurePlugin implements Plugin<Project> {
     private static void applyAllureSpockAdaptor(Project project, AllureExtension ext) {
         if (ext.spock) {
             project.dependencies.add(
-                    CONFIGURATION_TEST_COMPILE,
+                    ext.configuration,
                     "ru.yandex.qatools.allure:allure-spock-1.0-adaptor:1.0")
         }
     }
@@ -49,10 +47,10 @@ public class AllurePlugin implements Plugin<Project> {
         if (ext.junit) {
             addD10xaRepository(project)
             project.dependencies.add(
-                    CONFIGURATION_TEST_COMPILE,
+                    ext.configuration,
                     "ru.d10xa:allure-junit-aspectj-adaptor:0.1.0")
             project.dependencies.add(
-                    CONFIGURATION_TEST_COMPILE,
+                    ext.configuration,
                     "ru.yandex.qatools.allure:allure-junit-adaptor:${ext.allureVersion}")
         }
     }
@@ -77,14 +75,14 @@ public class AllurePlugin implements Plugin<Project> {
     private static void applyGeb(Project project, AllureExtension ext) {
         if (ext.geb) {
             addD10xaRepository(project)
-            project.dependencies.add(CONFIGURATION_TEST_COMPILE,
+            project.dependencies.add(ext.configuration,
                     "ru.d10xa:allure-spock-geb:0.2.1")
         }
     }
 
     private static void applyTestNgAdaptor(Project project, AllureExtension ext) {
         if (ext.testNG) {
-            project.dependencies.add(CONFIGURATION_TEST_COMPILE,
+            project.dependencies.add(ext.configuration,
                     "ru.yandex.qatools.allure:allure-testng-adaptor:$ext.allureVersion")
         }
     }
