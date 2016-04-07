@@ -1,6 +1,7 @@
 # Gradle Allure Plugin
 [![Download](https://api.bintray.com/packages/d10xa/maven/ru.d10xa%3Agradle-allure-plugin/images/download.svg)](https://bintray.com/d10xa/maven/ru.d10xa%3Agradle-allure-plugin/_latestVersion)
 [![Build Status](https://travis-ci.org/d10xa/gradle-allure-plugin.svg?branch=master)](https://travis-ci.org/d10xa/gradle-allure-plugin)
+[![jitpack](https://jitpack.io/v/ru.d10xa/gradle-allure-plugin.svg)](https://jitpack.io/#ru.d10xa/gradle-allure-plugin)
 
 Gradle Allure Plugin allows you to integrate 
 [Allure](http://allure.qatools.ru/) into spock, testng and junit tests.
