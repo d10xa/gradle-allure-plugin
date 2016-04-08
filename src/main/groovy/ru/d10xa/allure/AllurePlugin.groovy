@@ -48,7 +48,7 @@ public class AllurePlugin implements Plugin<Project> {
             addD10xaRepository(project)
             project.dependencies.add(
                     ext.configuration,
-                    "ru.d10xa:allure-junit-aspectj-adaptor:0.1.0")
+                    "ru.d10xa:allure-junit-aspectj-adaptor:${ext.allureJunitAspectjAdaptorVersion}")
             project.dependencies.add(
                     ext.configuration,
                     "ru.yandex.qatools.allure:allure-junit-adaptor:${ext.allureVersion}")
