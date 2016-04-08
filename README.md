@@ -6,6 +6,8 @@
 Gradle Allure Plugin allows you to integrate 
 [Allure](http://allure.qatools.ru/) into spock, testng and junit tests.
 
+[Examples](https://github.com/d10xa/gradle-allure-plugin-examples)
+
 ## Usage
 
 ```groovy
