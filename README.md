@@ -112,3 +112,11 @@ Or create your own task
 task customAllureReport(type: ru.d10xa.allure.AllureReportTask){
 }
 ```
+
+### `cleanAllureReport`
+
+Deletes directory declared in `allureReportDir` parameter
+
+### `cleanTest` or `cleanYourOwnTest`
+
+Deletes the test results and allure results created by `test` or `yourOwnTest` task

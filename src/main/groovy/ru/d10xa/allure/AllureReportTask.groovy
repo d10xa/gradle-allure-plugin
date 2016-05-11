@@ -4,6 +4,7 @@ import groovy.transform.CompileStatic
 import org.gradle.api.Project
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.JavaExec
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
@@ -32,6 +33,13 @@ public class AllureReportTask extends JavaExec {
         super.exec()
     }
 
+    @OutputDirectory
+    private File getReportDir() {
+        this.@reportDir ?
+                project.file(this.@reportDir.toString()) :
+                project.file(allureExtension.allureReportDir)
+    }
+
     @Input
     private List<String> collectArguments() {
         def arguments = this.resultDirs.collect resultDirCollector
@@ -49,12 +57,19 @@ public class AllureReportTask extends JavaExec {
         if (arguments.empty) {
             arguments.add(allureExtension.allureResultsDir)
         }
-        if (this.reportDir != null) {
-            arguments.add(this.reportDir.toString())
-        } else {
-            arguments.add(allureExtension.allureReportDir)
-        }
+        arguments.add(getReportDir()?.toString())
         arguments
+    }
+
+    public void from(Object... results) {
+        this.resultDirs = new LinkedHashSet<Object>()
+        for (Object result : results) {
+            this.resultDirs.add(result)
+        }
+    }
+
+    public void to(Object reportDir) {
+        this.reportDir = reportDir
     }
 
     private static Closure<String> getResultDirCollector() {
@@ -69,17 +84,6 @@ public class AllureReportTask extends JavaExec {
 
     private AllureExtension getAllureExtension() {
         return project.extensions.findByType(AllureExtension.class)
-    }
-
-    public void from(Object... results) {
-        this.resultDirs = new LinkedHashSet<Object>()
-        for (Object result : results) {
-            this.resultDirs.add(result)
-        }
-    }
-
-    public void to(Object reportDir) {
-        this.reportDir = reportDir
     }
 
 }

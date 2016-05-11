@@ -25,7 +25,7 @@ public class AllurePlugin implements Plugin<Project> {
 
             applyAspectjweaver(project, ext)
             applyGeb(project, ext)
-            configureResultsDirSystemProperty(project, ext)
+            configureTestTasks(project, ext)
             configureBundle(project, ext)
         }
         project.tasks.create(AllureReportTask.NAME, AllureReportTask)
@@ -93,8 +93,9 @@ public class AllurePlugin implements Plugin<Project> {
         }
     }
 
-    private static void configureResultsDirSystemProperty(Project project, AllureExtension ext) {
+    private static void configureTestTasks(Project project, AllureExtension ext) {
         project.tasks.withType(Test.class).each {
+            it.outputs.files project.files(project.file(ext.allureResultsDir))
             it.systemProperty(ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY, ext.allureResultsDir)
         }
     }

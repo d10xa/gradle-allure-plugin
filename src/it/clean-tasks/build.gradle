@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+    id 'ru.d10xa.allure'
+}
+allure {
+    allureResultsDir = "$buildDir/allure-results-custom"
+    allureReportDir = "$buildDir/allure-report-custom"
+}
+repositories {
+    jcenter()
+}
