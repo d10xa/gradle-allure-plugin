@@ -22,6 +22,7 @@ public class AllureReportTask extends JavaExec {
 
     public AllureReportTask() {
         this.resultDirs = new LinkedHashSet<Object>()
+        this.outputs.upToDateWhen { false }
     }
 
     @Override
