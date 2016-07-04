@@ -17,7 +17,7 @@ class AllureExtension {
 
     String allureReportDir
 
-    String allureVersion = "1.4.23"
+    String allureVersion = "1.4.24.RC2"
 
     String aspectjVersion = "1.8.9"
 

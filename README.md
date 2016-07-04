@@ -34,7 +34,7 @@ allure {
     allureResultsDir = "$buildDir/allure-results"
     allureReportDir = "$buildDir/allure-report"
     
-    allureVersion = "1.4.22"
+    allureVersion = "1.4.24.RC2"
     aspectjVersion = "1.8.9"
 }
 ```
