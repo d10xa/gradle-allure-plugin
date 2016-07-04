@@ -120,3 +120,6 @@ Deletes directory declared in `allureReportDir` parameter
 ### `cleanTest` or `cleanYourOwnTest`
 
 Deletes the test results and allure results created by `test` or `yourOwnTest` task
+
+## License
+This plugin is available under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
