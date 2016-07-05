@@ -68,6 +68,9 @@ public class AllurePlugin implements Plugin<Project> {
                     String javaAgent = "-javaagent:${aspectjConfiguration.singleFile}"
                     test.jvmArgs = [javaAgent] + test.jvmArgs
                 }
+                if (project.logger.debugEnabled) {
+                    project.logger.debug "jvmArgs for task $test.name $test.jvmArgs"
+                }
             }
         }
     }
