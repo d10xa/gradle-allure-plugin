@@ -16,7 +16,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "ru.d10xa:gradle-allure-plugin:0.5.0"
+        classpath "ru.d10xa:gradle-allure-plugin:0.5.2"
     }
 }
 
