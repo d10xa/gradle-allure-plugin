@@ -37,4 +37,6 @@ class AllureExtension {
 
     boolean aspectjweaver
 
+    boolean clean = true
+
 }

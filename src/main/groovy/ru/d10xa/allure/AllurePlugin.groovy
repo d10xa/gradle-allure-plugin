@@ -3,6 +3,7 @@ package ru.d10xa.allure
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.tasks.testing.Test
 
@@ -25,6 +26,7 @@ public class AllurePlugin implements Plugin<Project> {
 
             applyAspectjweaver(project, ext)
             applyGeb(project, ext)
+            applyClean(project, ext)
             configureTestTasks(project, ext)
             configureBundle(project, ext)
         }
@@ -87,6 +89,14 @@ public class AllurePlugin implements Plugin<Project> {
         if (ext.testNG) {
             project.dependencies.add(ext.configuration,
                     "ru.yandex.qatools.allure:allure-testng-adaptor:$ext.allureVersion")
+        }
+    }
+
+    private static void applyClean(Project project, AllureExtension ext) {
+        if (ext.clean) {
+            def dependsOnClean = { Task it -> it.dependsOn "clean${it.name.capitalize()}" }
+            project.tasks.withType(Test.class).each dependsOnClean
+            project.tasks.withType(AllureReportTask.class).each dependsOnClean
         }
     }
 

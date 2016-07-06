@@ -36,6 +36,8 @@ allure {
     
     allureVersion = "1.4.24.RC2"
     aspectjVersion = "1.8.9"
+ 
+    clean = true
 }
 ```
 
@@ -78,6 +80,9 @@ Version of `org.aspectj:aspectjweaver`
 Apply adaptors to this configuration. 
 For example, you can select the configuration 'compile' 
 and use the adaptor classes in your source code.
+
+- `clean` (boolean) default true.
+Execute appropriate clean tasks before tests and report generation.
 
 ## Tasks
 
