@@ -40,7 +40,7 @@ class JunitSpec extends Specification {
         attachmentsCount == 1
 
         where:
-        gradleVersion << ['2.8', '2.9', '2.10', '2.12', '2.13', '2.14']
+        gradleVersion << ['2.8', '2.14']
     }
 
 }
