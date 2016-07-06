@@ -8,7 +8,7 @@ Gradle Allure Plugin allows you to integrate
 
 [Examples](https://github.com/d10xa/gradle-allure-plugin-examples)
 
-## Usage
+## Basic usage
 
 ```groovy
 buildscript {
@@ -25,6 +25,22 @@ apply plugin: 'ru.d10xa.allure'
 allure {
     aspectjweaver = true
     
+    // Choose your test framework. 
+    junit = true
+    testNG = false
+    spock = false
+    
+    // Choose if you're using Geb for web tests
+    geb = true
+}
+```
+
+## Full configuration
+
+```groovy
+allure {
+    aspectjweaver = true
+    
     junit = true
     testNG = false
     spock = false
@@ -36,6 +52,8 @@ allure {
     
     allureVersion = "1.4.24.RC2"
     aspectjVersion = "1.8.9"
+    allureSpockGebExtensionVersion = "0.2.1"
+    allureJunitAspectjAdaptorVersion = "0.1.0"
  
     clean = true
 }
@@ -75,6 +93,12 @@ Version of allure-bundle and allure-adaptors
 
 - `aspectjVersion` (string).
 Version of `org.aspectj:aspectjweaver`
+
+- `allureSpockGebExtensionVersion` (string).
+Version of [allure-spock-geb](https://github.com/d10xa/allure-spock-geb)
+
+- `allureJunitAspectjAdaptorVersion` (string).
+Version of [allure-junit-aspectj-adaptor](https://github.com/d10xa/allure-junit-aspectj-adaptor)
 
 - `configuration` (string) default 'testCompile'.
 Apply adaptors to this configuration. 
