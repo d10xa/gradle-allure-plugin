@@ -2,7 +2,6 @@ package ru.d10xa.allure
 
 import groovy.transform.CompileStatic
 import org.gradle.api.Project
-import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
@@ -20,6 +19,13 @@ public class AllureReportTask extends JavaExec {
 
     private Object reportDir
 
+    private final static Closure<String> RESULT_DIR_COLLECTOR = {
+        if (it instanceof Project) {
+            return it.extensions.getByType(AllureExtension).allureResultsDir
+        }
+        return it as String
+    }
+
     public AllureReportTask() {
         this.resultDirs = new LinkedHashSet<Object>()
         this.outputs.upToDateWhen { false }
@@ -28,9 +34,23 @@ public class AllureReportTask extends JavaExec {
     @Override
     @TaskAction
     public void exec() {
-        args(collectArguments())
+        List<String> dirs = resultDirsArguments()
+                .findAll {
+            def f = new File(it)
+            f.directory && f.list().size() > 0
+        }
+
+        if (dirs.size() == 0) {
+            logger.warn("No allure results found. The report is not generated")
+            return
+        }
+        if (this.getReportDir() == null) {
+            logger.warn("Allure report dir is null")
+            return
+        }
+        args(dirs + getReportDir().toString())
         setMain(ALLURE_MAIN_CLASS)
-        classpath(getProject().getConfigurations().getByName("allureReport"))
+        classpath(project.configurations.getByName("allureReport"))
         super.exec()
     }
 
@@ -41,9 +61,8 @@ public class AllureReportTask extends JavaExec {
                 project.file(allureExtension.allureReportDir)
     }
 
-    @Input
-    private List<String> collectArguments() {
-        def arguments = this.resultDirs.collect resultDirCollector
+    private List<String> resultDirsArguments() {
+        def arguments = this.resultDirs.collect(RESULT_DIR_COLLECTOR)
 
         if (logger.debugEnabled) {
             def dirs = arguments.collect { new File(it) }
@@ -58,7 +77,6 @@ public class AllureReportTask extends JavaExec {
         if (arguments.empty) {
             arguments.add(allureExtension.allureResultsDir)
         }
-        arguments.add(getReportDir()?.toString())
         arguments
     }
 
@@ -71,16 +89,6 @@ public class AllureReportTask extends JavaExec {
 
     public void to(Object reportDir) {
         this.reportDir = reportDir
-    }
-
-    private static Closure<String> getResultDirCollector() {
-        def closure = {
-            if (it instanceof Project) {
-                return it.extensions.getByType(AllureExtension).allureResultsDir
-            }
-            return it.toString()
-        }
-        return closure
     }
 
     private AllureExtension getAllureExtension() {

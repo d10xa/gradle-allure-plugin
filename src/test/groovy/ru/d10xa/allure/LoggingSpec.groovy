@@ -7,6 +7,8 @@ import ru.d10xa.allure.extension.TestProjectDir
 import spock.lang.Shared
 import spock.lang.Specification
 
+import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
+
 class LoggingSpec extends Specification {
 
     @TestProjectDir(dir = "logging")
@@ -28,7 +30,14 @@ class LoggingSpec extends Specification {
                 .withTestKitDir(new File(testProjectDirectory.parentFile.absolutePath, '.gradle'))
                 .withArguments('allureReport', '--debug')
                 .withPluginClasspath(pluginClasspath)
-                .buildAndFail()
+                .build()
+    }
+
+    def 'build not fails without allure results'() {
+        expect:
+        buildResult.task(":allureReport").outcome == SUCCESS
+        buildResult.output.contains(
+                "No allure results found. The report is not generated")
     }
 
     def 'nonexistent directory logging'() {
