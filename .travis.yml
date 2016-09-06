@@ -18,4 +18,4 @@ deploy:
   provider: script
   script: ./gradlew bintrayUpload
   on:
-    branch: bintray-upload
+    tags: true
