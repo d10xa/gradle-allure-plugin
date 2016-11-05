@@ -59,6 +59,10 @@ public class AllurePlugin implements Plugin<Project> {
 
     private static void applyAspectjweaver(Project project, AllureExtension ext) {
         if (ext.aspectjweaver) {
+            project.dependencies.add(
+                    ext.configuration,
+                    "ru.yandex.qatools.allure:allure-java-aspects:${ext.allureVersion}")
+
             def aspectjConfiguration = project.configurations.maybeCreate(
                     CONFIGURATION_ASPECTJWEAVER)
 
