@@ -3,7 +3,7 @@ plugins {
     id 'groovy'
     id 'codenarc'
     id 'maven-publish'
-    id "com.jfrog.bintray" version "1.4"
+    id "com.jfrog.bintray" version "1.7.2"
 }
 group = "ru.d10xa"
 codenarcTest.enabled = false
