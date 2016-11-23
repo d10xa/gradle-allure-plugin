@@ -23,7 +23,7 @@ class AllureExtension {
 
     String allureSpockGebExtensionVersion = "0.2.1"
 
-    String allureJunitAspectjAdaptorVersion = "0.1.0"
+    String allureJunitAspectjAdaptorVersion = "0.1.1"
 
     String configuration = "testCompile"
 

@@ -8,7 +8,7 @@ import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.tasks.testing.Test
 
 @CompileStatic
-public class AllurePlugin implements Plugin<Project> {
+class AllurePlugin implements Plugin<Project> {
 
     private static final
     String ALLURE_RESULTS_DIRECTORY_SYSTEM_PROPERTY = "allure.results.directory"
@@ -16,7 +16,7 @@ public class AllurePlugin implements Plugin<Project> {
     private final static String CONFIGURATION_ASPECTJWEAVER = "aspectjweaverAgent"
 
     @Override
-    public void apply(Project project) {
+    void apply(Project project) {
         project.configurations.create(AllureReportTask.CONFIGURATION_NAME)
         AllureExtension ext = configureAllureExtension(project)
         project.afterEvaluate {

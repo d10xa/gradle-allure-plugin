@@ -7,7 +7,7 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-public class AllureReportTask extends JavaExec {
+class AllureReportTask extends JavaExec {
 
     public static final String NAME = "allureReport"
 
@@ -26,7 +26,7 @@ public class AllureReportTask extends JavaExec {
         return it as String
     }
 
-    public AllureReportTask() {
+    AllureReportTask() {
         this.resultDirs = new LinkedHashSet<Object>()
         this.outputs.upToDateWhen { false }
     }
@@ -80,14 +80,14 @@ public class AllureReportTask extends JavaExec {
         arguments
     }
 
-    public void from(Object... results) {
+    void from(Object... results) {
         this.resultDirs = new LinkedHashSet<Object>()
         for (Object result : results) {
             this.resultDirs.add(result)
         }
     }
 
-    public void to(Object reportDir) {
+    void to(Object reportDir) {
         this.reportDir = reportDir
     }
 

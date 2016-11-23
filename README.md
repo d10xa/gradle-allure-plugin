@@ -16,7 +16,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "ru.d10xa:gradle-allure-plugin:0.5.4"
+        classpath "ru.d10xa:gradle-allure-plugin:0.5.5"
     }
 }
 
@@ -53,7 +53,7 @@ allure {
     allureVersion = "1.4.24.RC3"
     aspectjVersion = "1.8.9"
     allureSpockGebExtensionVersion = "0.2.1"
-    allureJunitAspectjAdaptorVersion = "0.1.0"
+    allureJunitAspectjAdaptorVersion = "0.1.1"
  
     clean = true
 }
